@@ -1,18 +1,121 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>PDF Tool</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF Split Tool</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 60px auto;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        text-align: center;
+    }
+
+    h1 {
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    p {
+        color: #666;
+        font-size: 14px;
+    }
+
+    .upload-box {
+        border: 2px dashed #ccc;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        transition: 0.3s;
+    }
+
+    .upload-box:hover {
+        border-color: #4facfe;
+        background: #f9fbff;
+    }
+
+    input[type="file"] {
+        margin-top: 10px;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, #4facfe, #00c6ff);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: linear-gradient(135deg, #00c6ff, #0072ff);
+    }
+
+    .footer {
+        margin-top: 25px;
+        font-size: 13px;
+        color: #777;
+    }
+
+    .highlight {
+        font-weight: bold;
+        color: #0072ff;
+    }
+
+    .icon {
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+
+</style>
 </head>
+
 <body>
 
-<h2>Upload PDF + Excel</h2>
+<div class="container">
 
-<form action="/process" method="post" enctype="multipart/form-data">
-    PDF: <input type="file" name="pdf"><br><br>
-    Excel: <input type="file" name="excel"><br><br>
+    <div class="icon">📄</div>
 
-    <button type="submit">Process</button>
-</form>
+    <h1>PDF Split Tool</h1>
+    <p>Upload your PDF and Excel file to generate split files instantly.</p>
+
+    <form action="/process" method="post" enctype="multipart/form-data">
+
+        <div class="upload-box">
+            <label><b>Upload PDF File</b></label><br>
+            <input type="file" name="pdf" accept=".pdf" required>
+        </div>
+
+        <div class="upload-box">
+            <label><b>Upload Excel File</b></label><br>
+            <input type="file" name="excel" accept=".xlsx" required>
+        </div>
+
+        <button type="submit">🚀 Process & Download ZIP</button>
+
+    </form>
+
+    <div class="footer">
+        Created by <span class="highlight">Sanjay Vaghela</span><br>
+        Field Officer, Bhavnagar
+    </div>
+
+</div>
 
 </body>
 </html>
