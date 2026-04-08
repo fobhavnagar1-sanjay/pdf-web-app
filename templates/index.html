@@ -1,121 +1,391 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PDF Split Tool</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Split Tool</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-<style>
-    body {
-        margin: 0;
-        font-family: 'Segoe UI', sans-serif;
-        background: linear-gradient(135deg, #4facfe, #00f2fe);
-    }
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top left, rgba(255,255,255,0.18), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(255,255,255,0.12), transparent 25%),
+                linear-gradient(135deg, #0f172a, #1d4ed8, #06b6d4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
 
-    .container {
-        max-width: 600px;
-        margin: 60px auto;
-        background: #ffffff;
-        padding: 30px;
-        border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        text-align: center;
-    }
+        .page-wrap {
+            width: 100%;
+            max-width: 1100px;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 24px;
+            align-items: stretch;
+        }
 
-    h1 {
-        margin-bottom: 10px;
-        color: #333;
-    }
+        .glass-card,
+        .side-card {
+            background: rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.22);
+            border-radius: 28px;
+            color: #ffffff;
+        }
 
-    p {
-        color: #666;
-        font-size: 14px;
-    }
+        .glass-card {
+            padding: 36px;
+        }
 
-    .upload-box {
-        border: 2px dashed #ccc;
-        padding: 20px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        transition: 0.3s;
-    }
+        .top-badge {
+            display: inline-block;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.16);
+            border: 1px solid rgba(255,255,255,0.25);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            margin-bottom: 18px;
+        }
 
-    .upload-box:hover {
-        border-color: #4facfe;
-        background: #f9fbff;
-    }
+        h1 {
+            margin: 0 0 12px;
+            font-size: 38px;
+            line-height: 1.15;
+            font-weight: 800;
+        }
 
-    input[type="file"] {
-        margin-top: 10px;
-    }
+        .subtitle {
+            margin: 0 0 28px;
+            color: rgba(255,255,255,0.88);
+            font-size: 16px;
+            line-height: 1.7;
+            max-width: 640px;
+        }
 
-    button {
-        width: 100%;
-        padding: 14px;
-        background: linear-gradient(135deg, #4facfe, #00c6ff);
-        color: white;
-        border: none;
-        border-radius: 10px;
-        font-size: 16px;
-        cursor: pointer;
-        font-weight: bold;
-        transition: 0.3s;
-    }
+        .upload-grid {
+            display: grid;
+            gap: 18px;
+            margin-bottom: 22px;
+        }
 
-    button:hover {
-        background: linear-gradient(135deg, #00c6ff, #0072ff);
-    }
+        .upload-box {
+            position: relative;
+            padding: 22px 20px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.12);
+            border: 1px dashed rgba(255,255,255,0.40);
+            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+        }
 
-    .footer {
-        margin-top: 25px;
-        font-size: 13px;
-        color: #777;
-    }
+        .upload-box:hover {
+            transform: translateY(-2px);
+            background: rgba(255,255,255,0.16);
+            border-color: rgba(255,255,255,0.75);
+        }
 
-    .highlight {
-        font-weight: bold;
-        color: #0072ff;
-    }
+        .upload-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
 
-    .icon {
-        font-size: 40px;
-        margin-bottom: 10px;
-    }
+        .upload-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.82);
+            margin-bottom: 14px;
+        }
 
-</style>
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            background: rgba(255,255,255,0.95);
+            color: #111827;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .process-btn {
+            width: 100%;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 20px;
+            font-size: 17px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+            color: #0f172a;
+            background: linear-gradient(135deg, #ffffff, #dbeafe);
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255,255,255,0.18);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .process-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 30px rgba(255,255,255,0.22);
+        }
+
+        .process-btn:active {
+            transform: translateY(0);
+        }
+
+        .note-box {
+            margin-top: 20px;
+            padding: 18px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.10);
+            color: rgba(255,255,255,0.88);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .error-box {
+            margin-top: 18px;
+            padding: 14px 16px;
+            border-radius: 14px;
+            background: rgba(255, 85, 85, 0.18);
+            border: 1px solid rgba(255,255,255,0.18);
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .side-card {
+            padding: 32px 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .side-top h2 {
+            margin: 0 0 14px;
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .side-top p {
+            margin: 0 0 24px;
+            color: rgba(255,255,255,0.86);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .feature-list {
+            display: grid;
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+
+        .feature-item {
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.10);
+            border: 1px solid rgba(255,255,255,0.14);
+        }
+
+        .feature-item strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 15px;
+        }
+
+        .feature-item span {
+            color: rgba(255,255,255,0.82);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .creator-box {
+            margin-top: 20px;
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.14);
+            border: 1px solid rgba(255,255,255,0.16);
+        }
+
+        .creator-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.72);
+            margin-bottom: 8px;
+        }
+
+        .creator-name {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .creator-role {
+            font-size: 14px;
+            color: rgba(255,255,255,0.84);
+        }
+
+        .mini-info {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+        }
+
+        .mini-pill {
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.12);
+            font-size: 13px;
+            color: rgba(255,255,255,0.88);
+            border: 1px solid rgba(255,255,255,0.14);
+        }
+
+        .loading-text {
+            display: none;
+            margin-top: 16px;
+            text-align: center;
+            font-size: 14px;
+            color: rgba(255,255,255,0.9);
+        }
+
+        @media (max-width: 920px) {
+            .page-wrap {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 30px;
+            }
+
+            .glass-card,
+            .side-card {
+                padding: 24px;
+            }
+        }
+
+        @media (max-width: 540px) {
+            body {
+                padding: 14px;
+            }
+
+            .glass-card,
+            .side-card {
+                border-radius: 22px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .subtitle {
+                font-size: 15px;
+            }
+        }
+    </style>
 </head>
-
 <body>
+    <div class="page-wrap">
+        <div class="glass-card">
+            <div class="top-badge">Smart Document Processing Portal</div>
+            <h1>PDF Split & Export Tool</h1>
+            <p class="subtitle">
+                Upload your PDF and Excel file, process your split rules instantly,
+                and download the generated output in ZIP format from one premium dashboard.
+            </p>
 
-<div class="container">
+            <form action="/process" method="post" enctype="multipart/form-data" onsubmit="showLoading()">
+                <div class="upload-grid">
+                    <div class="upload-box">
+                        <div class="upload-title">Upload PDF File</div>
+                        <div class="upload-text">
+                            Select the main PDF file that you want to split.
+                        </div>
+                        <input type="file" name="pdf" accept=".pdf" required>
+                    </div>
 
-    <div class="icon">📄</div>
+                    <div class="upload-box">
+                        <div class="upload-title">Upload Excel File</div>
+                        <div class="upload-text">
+                            Upload the Excel sheet that contains page range, format, and output name.
+                        </div>
+                        <input type="file" name="excel" accept=".xlsx" required>
+                    </div>
+                </div>
 
-    <h1>PDF Split Tool</h1>
-    <p>Upload your PDF and Excel file to generate split files instantly.</p>
+                <button type="submit" class="process-btn">Process & Download ZIP</button>
+                <div id="loadingText" class="loading-text">Processing files, please wait...</div>
+            </form>
 
-    <form action="/process" method="post" enctype="multipart/form-data">
+            {% if error %}
+            <div class="error-box">{{ error }}</div>
+            {% endif %}
 
-        <div class="upload-box">
-            <label><b>Upload PDF File</b></label><br>
-            <input type="file" name="pdf" accept=".pdf" required>
+            <div class="note-box">
+                <strong>Excel Format:</strong><br>
+                Column A = Page Range<br>
+                Column B = Output Format like pdf / jpg<br>
+                Column C = Output File Name
+            </div>
         </div>
 
-        <div class="upload-box">
-            <label><b>Upload Excel File</b></label><br>
-            <input type="file" name="excel" accept=".xlsx" required>
+        <div class="side-card">
+            <div class="side-top">
+                <h2>Why this tool helps</h2>
+                <p>
+                    This portal is designed for fast document handling, simple uploads,
+                    clean output generation, and easy use for office workflow.
+                </p>
+
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <strong>Fast Processing</strong>
+                        <span>Split PDF pages based on Excel instructions in one click.</span>
+                    </div>
+
+                    <div class="feature-item">
+                        <strong>Simple Interface</strong>
+                        <span>Clean premium page design for easy use by any staff member.</span>
+                    </div>
+
+                    <div class="feature-item">
+                        <strong>Ready Download</strong>
+                        <span>All generated files are packed and returned as a ZIP file.</span>
+                    </div>
+                </div>
+
+                <div class="mini-info">
+                    <div class="mini-pill">PDF Upload</div>
+                    <div class="mini-pill">Excel Rules</div>
+                    <div class="mini-pill">ZIP Output</div>
+                </div>
+            </div>
+
+            <div class="creator-box">
+                <div class="creator-label">Created By</div>
+                <div class="creator-name">Sanjay Vaghela</div>
+                <div class="creator-role">Field Officer, Bhavnagar</div>
+            </div>
         </div>
-
-        <button type="submit">🚀 Process & Download ZIP</button>
-
-    </form>
-
-    <div class="footer">
-        Created by <span class="highlight">Sanjay Vaghela</span><br>
-        Field Officer, Bhavnagar
     </div>
 
-</div>
-
+    <script>
+        function showLoading() {
+            var text = document.getElementById("loadingText");
+            if (text) {
+                text.style.display = "block";
+            }
+        }
+    </script>
 </body>
 </html>
