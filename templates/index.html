@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> વહાલી દિકરી યોજના ડોક્યુમેન્ટ ટૂલ</title>
+    <title>PDF વિભાજન અને એક્સપોર્ટ ટૂલ</title>
     <style>
         * {
             box-sizing: border-box;
@@ -17,23 +17,16 @@
                 radial-gradient(circle at top left, rgba(255,255,255,0.18), transparent 30%),
                 radial-gradient(circle at bottom right, rgba(255,255,255,0.12), transparent 25%),
                 linear-gradient(135deg, #0f172a, #1d4ed8, #06b6d4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
             padding: 24px;
         }
 
         .page-wrap {
             width: 100%;
-            max-width: 1180px;
-            display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 24px;
-            align-items: stretch;
+            max-width: 1300px;
+            margin: 0 auto;
         }
 
-        .glass-card,
-        .side-card {
+        .glass-card {
             background: rgba(255, 255, 255, 0.14);
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
@@ -41,9 +34,6 @@
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.22);
             border-radius: 28px;
             color: #ffffff;
-        }
-
-        .glass-card {
             padding: 36px;
         }
 
@@ -67,120 +57,153 @@
 
         .subtitle {
             margin: 0 0 22px;
-            color: rgba(255,255,255,0.88);
+            color: rgba(255,255,255,0.90);
             font-size: 16px;
-            line-height: 1.8;
-            max-width: 680px;
+            line-height: 1.9;
+            max-width: 900px;
         }
 
-        .info-strip {
-            background: rgba(255,255,255,0.10);
-            border: 1px solid rgba(255,255,255,0.18);
-            border-radius: 18px;
-            padding: 16px 18px;
-            margin-bottom: 22px;
-            line-height: 1.8;
-            font-size: 15px;
-            color: rgba(255,255,255,0.95);
-        }
-
-        .sample-box {
-            background: rgba(255,255,255,0.10);
-            border: 1px solid rgba(255,255,255,0.18);
-            border-radius: 18px;
-            padding: 18px;
-            margin-bottom: 22px;
-        }
-
-        .sample-box h3 {
-            margin: 0 0 12px;
-            font-size: 20px;
-        }
-
-        .sample-box p {
-            margin: 0 0 14px;
-            color: rgba(255,255,255,0.88);
-            line-height: 1.7;
-            font-size: 14px;
-        }
-
-        .sample-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .sample-links a {
-            display: inline-block;
-            padding: 12px 16px;
-            border-radius: 12px;
-            text-decoration: none;
-            color: #0f172a;
-            background: linear-gradient(135deg, #ffffff, #dbeafe);
-            font-weight: 700;
-            transition: 0.2s ease;
-        }
-
-        .sample-links a:hover {
-            transform: translateY(-2px);
-        }
-
-        .upload-grid {
-            display: grid;
-            gap: 18px;
-            margin-bottom: 22px;
-        }
-
-        .upload-box {
+        .info-strip,
+        .upload-box,
+        .rules-box,
+        .note-box,
+        .creator-box {
             padding: 22px 20px;
             border-radius: 20px;
             background: rgba(255,255,255,0.12);
-            border: 1px dashed rgba(255,255,255,0.40);
-            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+            border: 1px solid rgba(255,255,255,0.20);
+            margin-bottom: 20px;
         }
 
-        .upload-box:hover {
-            transform: translateY(-2px);
-            background: rgba(255,255,255,0.16);
-            border-color: rgba(255,255,255,0.75);
+        .info-strip {
+            line-height: 1.9;
+            font-size: 15px;
+            color: rgba(255,255,255,0.96);
         }
 
-        .upload-title {
-            font-size: 21px;
+        .upload-title,
+        .rules-title {
+            font-size: 22px;
             font-weight: 700;
             margin-bottom: 8px;
         }
 
-        .upload-text {
+        .upload-text,
+        .rules-text {
             font-size: 15px;
-            line-height: 1.7;
-            color: rgba(255,255,255,0.84);
+            line-height: 1.8;
+            color: rgba(255,255,255,0.86);
             margin-bottom: 14px;
         }
 
-        input[type="file"] {
+        input[type="file"],
+        input[type="text"],
+        select {
             width: 100%;
-            padding: 12px;
+            padding: 12px 14px;
             border-radius: 12px;
             border: none;
-            background: rgba(255,255,255,0.95);
+            background: rgba(255,255,255,0.96);
             color: #111827;
             font-size: 14px;
+            outline: none;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            margin-top: 10px;
+            border-radius: 18px;
+        }
+
+        table {
+            width: 100%;
+            min-width: 980px;
+            border-collapse: collapse;
+            overflow: hidden;
+            border-radius: 18px;
+        }
+
+        th, td {
+            padding: 14px 12px;
+            border: 1px solid rgba(255,255,255,0.14);
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        th {
+            background: rgba(255,255,255,0.18);
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        td {
+            background: rgba(255,255,255,0.08);
+        }
+
+        .col-range {
+            width: 18%;
+        }
+
+        .col-format {
+            width: 18%;
+        }
+
+        .col-name {
+            width: 48%;
+        }
+
+        .col-action {
+            width: 16%;
+            text-align: center;
+        }
+
+        .small-input {
+            min-width: 160px;
+        }
+
+        .remove-btn,
+        .add-row-btn,
+        .process-btn {
+            border: none;
             cursor: pointer;
+            font-weight: 700;
+            transition: 0.2s ease;
+        }
+
+        .remove-btn {
+            background: #ef4444;
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 10px;
+            min-width: 90px;
+        }
+
+        .remove-btn:hover {
+            background: #dc2626;
+        }
+
+        .add-row-btn {
+            padding: 12px 18px;
+            background: rgba(255,255,255,0.95);
+            color: #0f172a;
+            border-radius: 12px;
+            margin-top: 16px;
+        }
+
+        .add-row-btn:hover {
+            transform: translateY(-1px);
         }
 
         .process-btn {
             width: 100%;
-            border: none;
-            border-radius: 16px;
             padding: 16px 20px;
             font-size: 18px;
-            font-weight: 800;
             color: #0f172a;
             background: linear-gradient(135deg, #ffffff, #dbeafe);
-            cursor: pointer;
+            border-radius: 16px;
             box-shadow: 0 10px 25px rgba(255,255,255,0.18);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 10px;
         }
 
         .process-btn:hover {
@@ -188,77 +211,18 @@
             box-shadow: 0 16px 30px rgba(255,255,255,0.22);
         }
 
+        .loading-text {
+            display: none;
+            margin-top: 16px;
+            text-align: center;
+            font-size: 14px;
+            color: rgba(255,255,255,0.92);
+        }
+
         .note-box {
-            margin-top: 20px;
-            padding: 18px;
-            border-radius: 18px;
-            background: rgba(255,255,255,0.10);
-            color: rgba(255,255,255,0.90);
+            color: rgba(255,255,255,0.94);
             font-size: 15px;
             line-height: 1.9;
-        }
-
-        .error-box {
-            margin-top: 18px;
-            padding: 14px 16px;
-            border-radius: 14px;
-            background: rgba(255, 85, 85, 0.18);
-            border: 1px solid rgba(255,255,255,0.18);
-            color: #fff;
-            font-size: 14px;
-        }
-
-        .side-card {
-            padding: 32px 28px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .side-top h2 {
-            margin: 0 0 14px;
-            font-size: 30px;
-            font-weight: 800;
-        }
-
-        .side-top p {
-            margin: 0 0 24px;
-            color: rgba(255,255,255,0.86);
-            line-height: 1.8;
-            font-size: 15px;
-        }
-
-        .feature-list {
-            display: grid;
-            gap: 14px;
-            margin-bottom: 28px;
-        }
-
-        .feature-item {
-            padding: 16px 18px;
-            border-radius: 16px;
-            background: rgba(255,255,255,0.10);
-            border: 1px solid rgba(255,255,255,0.14);
-        }
-
-        .feature-item strong {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 18px;
-        }
-
-        .feature-item span {
-            color: rgba(255,255,255,0.82);
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .creator-box {
-            margin-top: 20px;
-            padding: 18px 20px;
-            border-radius: 18px;
-            background: rgba(255,255,255,0.14);
-            border: 1px solid rgba(255,255,255,0.16);
         }
 
         .creator-label {
@@ -281,61 +245,51 @@
             line-height: 1.6;
         }
 
-        .mini-info {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
+        .error-box {
             margin-top: 18px;
-        }
-
-        .mini-pill {
-            padding: 10px 14px;
-            border-radius: 999px;
-            background: rgba(255,255,255,0.12);
-            font-size: 13px;
-            color: rgba(255,255,255,0.88);
-            border: 1px solid rgba(255,255,255,0.14);
-        }
-
-        .loading-text {
-            display: none;
-            margin-top: 16px;
-            text-align: center;
+            padding: 14px 16px;
+            border-radius: 14px;
+            background: rgba(255, 85, 85, 0.18);
+            border: 1px solid rgba(255,255,255,0.18);
+            color: #fff;
             font-size: 14px;
-            color: rgba(255,255,255,0.9);
         }
 
         @media (max-width: 920px) {
-            .page-wrap {
-                grid-template-columns: 1fr;
+            body {
+                padding: 16px;
+            }
+
+            .glass-card {
+                padding: 22px;
             }
 
             h1 {
                 font-size: 30px;
             }
 
-            .glass-card,
-            .side-card {
-                padding: 24px;
+            .subtitle {
+                font-size: 15px;
             }
         }
 
         @media (max-width: 540px) {
-            body {
-                padding: 14px;
-            }
-
-            .glass-card,
-            .side-card {
+            .glass-card {
                 border-radius: 22px;
+                padding: 18px;
             }
 
             h1 {
-                font-size: 26px;
+                font-size: 25px;
             }
 
-            .subtitle {
-                font-size: 15px;
+            .top-badge {
+                font-size: 12px;
+            }
+
+            .upload-title,
+            .rules-title {
+                font-size: 19px;
             }
         }
     </style>
@@ -345,52 +299,224 @@
         <div class="glass-card">
             <div class="top-badge">સ્માર્ટ દસ્તાવેજ પ્રક્રિયા પોર્ટલ</div>
             <h1>PDF વિભાજન અને એક્સપોર્ટ ટૂલ</h1>
+
             <p class="subtitle">
-                તમારી PDF અને Excel ફાઇલ અહીં અપલોડ કરો. Excel માં આપેલ નિયમો મુજબ
-                સિસ્ટમ આપમેળે ફાઇલને પ્રોસેસ કરીને ZIP ફાઇલ બનાવશે.
+                અહીં માત્ર PDF ફાઇલ અપલોડ કરો. નીચે આપેલ કોષ્ટકમાં પેજ રેન્જ, આઉટપુટ ફોર્મેટ
+                અને આઉટપુટ ફાઇલ નામ પહેલેથી ભરેલ છે. જરૂર હોય તો તમે તેમાં ફેરફાર કરી શકો છો,
+                નવી row ઉમેરી શકો છો અથવા કોઈ row કાઢી શકો છો.
             </p>
 
             <div class="info-strip">
-                <strong>ફાઇલ ક્યાં અપલોડ કરવી?</strong><br>
-                નીચે આપેલ પ્રથમ બોક્સમાં <strong>PDF ફાઇલ</strong> અપલોડ કરવી.<br>
-                બીજા બોક્સમાં <strong>Excel ફાઇલ</strong> અપલોડ કરવી.<br>
-                પછી <strong>“પ્રોસેસ કરો અને ZIP ડાઉનલોડ કરો”</strong> બટન દબાવવું.
-            </div>
-
-            <div class="sample-box">
-                <h3>નમૂના ફાઇલ ડાઉનલોડ કરો</h3>
-                <p>
-                    વપરાશકર્તાને સરળતા રહે તે માટે નીચે નમૂના PDF અને Excel ફાઇલની લિંક આપવામાં આવી છે.
-                    અહીં તમારી સાચી લિંક મૂકી શકો છો.
-                </p>
-
-                <div class="sample-links">
-                    <a href="#" target="_blank">નમૂના PDF ડાઉનલોડ કરો</a>
-                    <a href="#" target="_blank">નમૂના Excel ડાઉનલોડ કરો</a>
-                </div>
+                <strong>ઉપયોગ કરવાની રીત:</strong><br>
+                1. નીચે આપેલ બોક્સમાં PDF ફાઇલ અપલોડ કરો.<br>
+                2. નીચેના કોષ્ટકમાં આપેલ માહિતી તપાસો.<br>
+                3. જરૂર મુજબ નામ, પેજ રેન્જ અથવા ફોર્મેટ બદલો.<br>
+                4. પછી “પ્રોસેસ કરો અને ZIP ડાઉનલોડ કરો” બટન દબાવો.
             </div>
 
             <form action="/process" method="post" enctype="multipart/form-data" onsubmit="showLoading()">
-                <div class="upload-grid">
-                    <div class="upload-box">
-                        <div class="upload-title">અહીં PDF ફાઇલ અપલોડ કરો</div>
-                        <div class="upload-text">
-                            મુખ્ય PDF ફાઇલ અહીં પસંદ કરો. આ ફાઇલને Excel નિયમો પ્રમાણે ભાગોમાં વહેંચવામાં આવશે.
-                        </div>
-                        <input type="file" name="pdf" accept=".pdf" required>
+                <div class="upload-box">
+                    <div class="upload-title">અહીં PDF ફાઇલ અપલોડ કરો</div>
+                    <div class="upload-text">
+                        મુખ્ય PDF ફાઇલ અહીં પસંદ કરો. Excel ફાઇલ અપલોડ કરવાની જરૂર નથી.
+                    </div>
+                    <input type="file" name="pdf" accept=".pdf" required>
+                </div>
+
+                <div class="rules-box">
+                    <div class="rules-title">પ્રોસેસિંગ માટેનું Editable Data</div>
+                    <div class="rules-text">
+                        નીચેનું data પહેલેથી ભરેલું છે. જરૂર હોય તો તમે edit કરી શકો છો.
                     </div>
 
-                    <div class="upload-box">
-                        <div class="upload-title">અહીં Excel ફાઇલ અપલોડ કરો</div>
-                        <div class="upload-text">
-                            Excel શીટમાં પેજ રેન્જ, આઉટપુટ ફોર્મેટ અને ફાઇલ નામ આપેલું હોવું જોઈએ.
-                        </div>
-                        <input type="file" name="excel" accept=".xlsx" required>
+                    <div class="table-wrap">
+                        <table id="rulesTable">
+                            <thead>
+                                <tr>
+                                    <th class="col-range">પેજ રેન્જ</th>
+                                    <th class="col-format">આઉટપુટ ફોર્મેટ</th>
+                                    <th class="col-name">આઉટપુટ ફાઇલ નામ</th>
+                                    <th class="col-action">ક્રિયા</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="text" name="page_range[]" value="1 to 2" class="small-input" required></td>
+                                    <td>
+                                        <select name="output_format[]" required>
+                                            <option value="pdf" selected>pdf</option>
+                                            <option value="jpg">jpg</option>
+                                            <option value="jpeg">jpeg</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" name="output_name[]" value="Detail Form" required></td>
+                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td><input type="text" name="page_range[]" value="3" class="small-input" required></td>
+                                    <td>
+                                        <select name="output_format[]" required>
+                                            <option value="pdf">pdf</option>
+                                            <option value="jpg" selected>jpg</option>
+                                            <option value="jpeg">jpeg</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" name="output_name[]" value="1_Daughter Photos" required></td>
+                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td><input type="text" name="page_range[]" value="4" class="small-input" required></td>
+                                    <td>
+                                        <select name="output_format[]" required>
+                                            <option value="pdf" selected>pdf</option>
+                                            <option value="jpg">jpg</option>
+                                            <option value="jpeg">jpeg</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" name="output_name[]" value="2_Daughter Birth Certificate" required></td>
+                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td><input type="text" name="page_range[]" value="5" class="small-input" required></td>
+                                    <td>
+                                        <select name="output_format[]" required>
+                                            <option value="pdf">pdf</option>
+                                            <option value="jpg" selected>jpg</option>
+                                            <option value="jpeg">jpeg</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" name="output_name[]" value="Daughter Aadhaar Card" required></td>
+                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td><input type="text" name="page_range[]" value="6" class="small-input" required></td>
+                                    <td>
+                                        <select name="output_format[]" required>
+                                            <option value="pdf">pdf</option>
+                                            <option value="jpg" selected>jpg</option>
+                                            <option value="jpeg">jpeg</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" name="output_name[]" value="Father Aadhaar Card" required></td>
+                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td><input type="text" name="page_range[]" value="7" class="small-input" required></td>
+                                    <td>
+                                        <select name="output_format[]" required>
+                                            <option value="pdf">pdf</option>
+                                            <option value="jpg" selected>jpg</option>
+                                            <option value="jpeg">jpeg</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" name="output_name[]" value="Mother Aadhaar Card" required></td>
+                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td><input type="text" name="page_range[]" value="8" class="small-input" required></td>
+                                    <td>
+                                        <select name="output_format[]" required>
+                                            <option value="pdf" selected>pdf</option>
+                                            <option value="jpg">jpg</option>
+                                            <option value="jpeg">jpeg</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" name="output_name[]" value="3_Bank Passbook" required></td>
+                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td><input type="text" name="page_range[]" value="9" class="small-input" required></td>
+                                    <td>
+                                        <select name="output_format[]" required>
+                                            <option value="pdf" selected>pdf</option>
+                                            <option value="jpg">jpg</option>
+                                            <option value="jpeg">jpeg</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" name="output_name[]" value="4_Father Birth Certificate" required></td>
+                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td><input type="text" name="page_range[]" value="10" class="small-input" required></td>
+                                    <td>
+                                        <select name="output_format[]" required>
+                                            <option value="pdf" selected>pdf</option>
+                                            <option value="jpg">jpg</option>
+                                            <option value="jpeg">jpeg</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" name="output_name[]" value="5_Mother Birth Certificate" required></td>
+                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td><input type="text" name="page_range[]" value="11" class="small-input" required></td>
+                                    <td>
+                                        <select name="output_format[]" required>
+                                            <option value="pdf" selected>pdf</option>
+                                            <option value="jpg">jpg</option>
+                                            <option value="jpeg">jpeg</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" name="output_name[]" value="6_Marriage Certificate" required></td>
+                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td><input type="text" name="page_range[]" value="12" class="small-input" required></td>
+                                    <td>
+                                        <select name="output_format[]" required>
+                                            <option value="pdf" selected>pdf</option>
+                                            <option value="jpg">jpg</option>
+                                            <option value="jpeg">jpeg</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" name="output_name[]" value="7_Ration Card" required></td>
+                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td><input type="text" name="page_range[]" value="13" class="small-input" required></td>
+                                    <td>
+                                        <select name="output_format[]" required>
+                                            <option value="pdf" selected>pdf</option>
+                                            <option value="jpg">jpg</option>
+                                            <option value="jpeg">jpeg</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" name="output_name[]" value="8_Self Declaration" required></td>
+                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td><input type="text" name="page_range[]" value="14" class="small-input" required></td>
+                                    <td>
+                                        <select name="output_format[]" required>
+                                            <option value="pdf" selected>pdf</option>
+                                            <option value="jpg">jpg</option>
+                                            <option value="jpeg">jpeg</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" name="output_name[]" value="10_Income Certificate" required></td>
+                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
+
+                    <button type="button" class="add-row-btn" onclick="addRow()">નવી Row ઉમેરો</button>
                 </div>
 
                 <button type="submit" class="process-btn">પ્રોસેસ કરો અને ZIP ડાઉનલોડ કરો</button>
-                <div id="loadingText" class="loading-text">ફાઇલો પ્રોસેસ થઈ રહી છે, કૃપા કરીને રાહ જુઓ...</div>
+                <div id="loadingText" class="loading-text">ફાઇલ પ્રોસેસ થઈ રહી છે, કૃપા કરીને રાહ જુઓ...</div>
             </form>
 
             {% if error %}
@@ -398,43 +524,10 @@
             {% endif %}
 
             <div class="note-box">
-                <strong>Excel ફોર્મેટ કેવી રીતે હોવું જોઈએ:</strong><br>
-                કોલમ A = પેજ રેન્જ<br>
-                કોલમ B = આઉટપુટ ફોર્મેટ જેમ કે pdf / jpg<br>
-                કોલમ C = આઉટપુટ ફાઇલ નામ
-            </div>
-        </div>
-
-        <div class="side-card">
-            <div class="side-top">
-                <h2>આ ટૂલ કેવી રીતે મદદરૂપ છે</h2>
-                <p>
-                    આ પોર્ટલ ઝડપી દસ્તાવેજ પ્રક્રિયા, સરળ અપલોડ, સ્વચ્છ આઉટપુટ અને
-                    ઓફિસના દૈનિક ઉપયોગ માટે ખૂબ જ ઉપયોગી રીતે બનાવવામાં આવ્યું છે.
-                </p>
-
-                <div class="feature-list">
-                    <div class="feature-item">
-                        <strong>ઝડપી પ્રોસેસિંગ</strong>
-                        <span>Excel સૂચનાઓ પ્રમાણે એક જ ક્લિકમાં PDF પેજોને અલગ કરો.</span>
-                    </div>
-
-                    <div class="feature-item">
-                        <strong>સરળ ઉપયોગ</strong>
-                        <span>કોઈપણ કર્મચારી સરળતાથી સમજીને ઉપયોગ કરી શકે તેવી ડિઝાઇન.</span>
-                    </div>
-
-                    <div class="feature-item">
-                        <strong>તૈયાર ZIP આઉટપુટ</strong>
-                        <span>બધી બનાવેલી ફાઇલો આપમેળે ZIPમાં તૈયાર થઈને ડાઉનલોડ માટે મળે છે.</span>
-                    </div>
-                </div>
-
-                <div class="mini-info">
-                    <div class="mini-pill">PDF અપલોડ</div>
-                    <div class="mini-pill">Excel અપલોડ</div>
-                    <div class="mini-pill">ZIP ડાઉનલોડ</div>
-                </div>
+                <strong>મહત્વપૂર્ણ નોંધ:</strong><br>
+                પેજ રેન્જ ઉદાહરણ: 1, 2-4, 5 to 7<br>
+                આઉટપુટ ફોર્મેટ: pdf / jpg / jpeg<br>
+                આઉટપુટ ફાઇલ નામ: તમે ઇચ્છો તે નામ આપી શકો છો.
             </div>
 
             <div class="creator-box">
@@ -450,6 +543,33 @@
             var text = document.getElementById("loadingText");
             if (text) {
                 text.style.display = "block";
+            }
+        }
+
+        function addRow() {
+            const tbody = document.querySelector("#rulesTable tbody");
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td><input type="text" name="page_range[]" value="" class="small-input" required></td>
+                <td>
+                    <select name="output_format[]" required>
+                        <option value="pdf">pdf</option>
+                        <option value="jpg">jpg</option>
+                        <option value="jpeg">jpeg</option>
+                    </select>
+                </td>
+                <td><input type="text" name="output_name[]" value="" required></td>
+                <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
+            `;
+            tbody.appendChild(row);
+        }
+
+        function removeRow(button) {
+            const tbody = document.querySelector("#rulesTable tbody");
+            if (tbody.rows.length > 1) {
+                button.closest("tr").remove();
+            } else {
+                alert("ઓછામાં ઓછી એક row હોવી જરૂરી છે.");
             }
         }
     </script>
