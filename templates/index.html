@@ -1,577 +1,834 @@
 <!DOCTYPE html>
-<html lang="gu">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF વિભાજન અને એક્સપોર્ટ ટૂલ</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF Tools Online - Merge, Split, Compress & Rename PDF Files</title>
+  <meta name="description" content="Use fast PDF tools online to merge, split, compress, rename and organize your PDF files. Simple, secure and mobile-friendly PDF utility website." />
+  <meta name="keywords" content="PDF tools, merge PDF, split PDF, compress PDF, rename PDF, online PDF editor, PDF utility website" />
+  <meta name="robots" content="index, follow" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
 
-        body {
-            margin: 0;
-            font-family: "Noto Sans Gujarati", "Shruti", "Segoe UI", sans-serif;
-            min-height: 100vh;
-            background:
-                radial-gradient(circle at top left, rgba(255,255,255,0.18), transparent 30%),
-                radial-gradient(circle at bottom right, rgba(255,255,255,0.12), transparent 25%),
-                linear-gradient(135deg, #0f172a, #1d4ed8, #06b6d4);
-            padding: 24px;
-        }
+    body {
+      background: #f5f7fb;
+      color: #222;
+      line-height: 1.6;
+    }
 
-        .page-wrap {
-            width: 100%;
-            max-width: 1300px;
-            margin: 0 auto;
-        }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.14);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(255, 255, 255, 0.24);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.22);
-            border-radius: 28px;
-            color: #ffffff;
-            padding: 36px;
-        }
+    .container {
+      width: 92%;
+      max-width: 1200px;
+      margin: auto;
+    }
 
-        .top-badge {
-            display: inline-block;
-            padding: 8px 14px;
-            border-radius: 999px;
-            background: rgba(255,255,255,0.16);
-            border: 1px solid rgba(255,255,255,0.25);
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 18px;
-        }
+    header {
+      background: #ffffff;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
 
-        h1 {
-            margin: 0 0 12px;
-            font-size: 38px;
-            line-height: 1.2;
-            font-weight: 800;
-        }
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
 
-        .subtitle {
-            margin: 0 0 22px;
-            color: rgba(255,255,255,0.90);
-            font-size: 16px;
-            line-height: 1.9;
-            max-width: 900px;
-        }
+    .logo {
+      font-size: 26px;
+      font-weight: 700;
+      color: #0d47a1;
+    }
 
-        .info-strip,
-        .upload-box,
-        .rules-box,
-        .note-box,
-        .creator-box {
-            padding: 22px 20px;
-            border-radius: 20px;
-            background: rgba(255,255,255,0.12);
-            border: 1px solid rgba(255,255,255,0.20);
-            margin-bottom: 20px;
-        }
+    .logo span {
+      color: #ff9800;
+    }
 
-        .info-strip {
-            line-height: 1.9;
-            font-size: 15px;
-            color: rgba(255,255,255,0.96);
-        }
+    nav {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
 
-        .upload-title,
-        .rules-title {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
+    nav a {
+      font-size: 15px;
+      font-weight: 600;
+      color: #333;
+    }
 
-        .upload-text,
-        .rules-text {
-            font-size: 15px;
-            line-height: 1.8;
-            color: rgba(255,255,255,0.86);
-            margin-bottom: 14px;
-        }
+    nav a:hover {
+      color: #0d47a1;
+    }
 
-        input[type="file"],
-        input[type="text"],
-        select {
-            width: 100%;
-            padding: 12px 14px;
-            border-radius: 12px;
-            border: none;
-            background: rgba(255,255,255,0.96);
-            color: #111827;
-            font-size: 14px;
-            outline: none;
-        }
+    .top-cta {
+      background: #ff9800;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+    }
 
-        .table-wrap {
-            overflow-x: auto;
-            margin-top: 10px;
-            border-radius: 18px;
-        }
+    .hero {
+      padding: 50px 0 25px;
+    }
 
-        table {
-            width: 100%;
-            min-width: 980px;
-            border-collapse: collapse;
-            overflow: hidden;
-            border-radius: 18px;
-        }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items: center;
+    }
 
-        th, td {
-            padding: 14px 12px;
-            border: 1px solid rgba(255,255,255,0.14);
-            text-align: left;
-            vertical-align: middle;
-        }
+    .hero-box {
+      background: #fff;
+      padding: 32px;
+      border-radius: 18px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    }
 
-        th {
-            background: rgba(255,255,255,0.18);
-            color: #ffffff;
-            font-size: 16px;
-            font-weight: 700;
-        }
+    .hero h1 {
+      font-size: 38px;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      color: #111;
+    }
 
-        td {
-            background: rgba(255,255,255,0.08);
-        }
+    .hero p {
+      font-size: 17px;
+      color: #555;
+      margin-bottom: 22px;
+    }
 
-        .col-range {
-            width: 18%;
-        }
+    .hero-btns {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
 
-        .col-format {
-            width: 18%;
-        }
+    .btn-primary,
+    .btn-secondary {
+      padding: 14px 22px;
+      border-radius: 10px;
+      font-weight: 700;
+      display: inline-block;
+    }
 
-        .col-name {
-            width: 48%;
-        }
+    .btn-primary {
+      background: #0d47a1;
+      color: #fff;
+    }
 
-        .col-action {
-            width: 16%;
-            text-align: center;
-        }
+    .btn-secondary {
+      background: #ff9800;
+      color: #fff;
+    }
 
-        .small-input {
-            min-width: 160px;
-        }
+    .hero-points {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
 
-        .remove-btn,
-        .add-row-btn,
-        .process-btn {
-            border: none;
-            cursor: pointer;
-            font-weight: 700;
-            transition: 0.2s ease;
-        }
+    .hero-points div {
+      background: #f1f6ff;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+    }
 
-        .remove-btn {
-            background: #ef4444;
-            color: #fff;
-            padding: 10px 14px;
-            border-radius: 10px;
-            min-width: 90px;
-        }
+    .ad-box {
+      background: #fff8e1;
+      border: 2px dashed #f5b300;
+      border-radius: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #8a5b00;
+      font-weight: 700;
+      padding: 20px;
+      min-height: 120px;
+    }
 
-        .remove-btn:hover {
-            background: #dc2626;
-        }
+    .ad-label {
+      font-size: 12px;
+      color: #999;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: bold;
+    }
 
-        .add-row-btn {
-            padding: 12px 18px;
-            background: rgba(255,255,255,0.95);
-            color: #0f172a;
-            border-radius: 12px;
-            margin-top: 16px;
-        }
+    .section {
+      padding: 28px 0;
+    }
 
-        .add-row-btn:hover {
-            transform: translateY(-1px);
-        }
+    .section-title {
+      font-size: 30px;
+      margin-bottom: 14px;
+      color: #111;
+    }
 
-        .process-btn {
-            width: 100%;
-            padding: 16px 20px;
-            font-size: 18px;
-            color: #0f172a;
-            background: linear-gradient(135deg, #ffffff, #dbeafe);
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(255,255,255,0.18);
-            margin-top: 10px;
-        }
+    .section-subtitle {
+      color: #666;
+      margin-bottom: 24px;
+      font-size: 16px;
+    }
 
-        .process-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 16px 30px rgba(255,255,255,0.22);
-        }
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
 
-        .loading-text {
-            display: none;
-            margin-top: 16px;
-            text-align: center;
-            font-size: 14px;
-            color: rgba(255,255,255,0.92);
-        }
+    .tool-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      transition: 0.25s ease;
+    }
 
-        .note-box {
-            color: rgba(255,255,255,0.94);
-            font-size: 15px;
-            line-height: 1.9;
-        }
+    .tool-card:hover {
+      transform: translateY(-4px);
+    }
 
-        .creator-label {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: rgba(255,255,255,0.72);
-            margin-bottom: 8px;
-        }
+    .tool-icon {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
 
-        .creator-name {
-            font-size: 22px;
-            font-weight: 800;
-            margin-bottom: 4px;
-        }
+    .tool-card h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #0d47a1;
+    }
 
-        .creator-role {
-            font-size: 14px;
-            color: rgba(255,255,255,0.84);
-            line-height: 1.6;
-        }
+    .tool-card p {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 15px;
+    }
 
-        .error-box {
-            margin-top: 18px;
-            padding: 14px 16px;
-            border-radius: 14px;
-            background: rgba(255, 85, 85, 0.18);
-            border: 1px solid rgba(255,255,255,0.18);
-            color: #fff;
-            font-size: 14px;
-        }
+    .tool-card a {
+      display: inline-block;
+      padding: 11px 16px;
+      background: #ff9800;
+      color: #fff;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 14px;
+    }
 
-        @media (max-width: 920px) {
-            body {
-                padding: 16px;
-            }
+    .upload-section {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 22px;
+      align-items: start;
+    }
 
-            .glass-card {
-                padding: 22px;
-            }
+    .upload-box {
+      background: #fff;
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    }
 
-            h1 {
-                font-size: 30px;
-            }
+    .drop-zone {
+      border: 2px dashed #0d47a1;
+      border-radius: 16px;
+      padding: 40px 20px;
+      text-align: center;
+      background: #f7fbff;
+      margin-bottom: 20px;
+    }
 
-            .subtitle {
-                font-size: 15px;
-            }
-        }
+    .drop-zone h3 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #0d47a1;
+    }
 
-        @media (max-width: 540px) {
-            .glass-card {
-                border-radius: 22px;
-                padding: 18px;
-            }
+    .drop-zone p {
+      color: #666;
+      margin-bottom: 18px;
+    }
 
-            h1 {
-                font-size: 25px;
-            }
+    .upload-btn {
+      background: #0d47a1;
+      color: #fff;
+      padding: 14px 22px;
+      border-radius: 10px;
+      display: inline-block;
+      font-weight: 700;
+    }
 
-            .top-badge {
-                font-size: 12px;
-            }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 10px;
+    }
 
-            .upload-title,
-            .rules-title {
-                font-size: 19px;
-            }
-        }
-    </style>
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #ccd5e0;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .process-btn {
+      margin-top: 20px;
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: #ff9800;
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .sidebar-box {
+      background: #fff;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      margin-bottom: 18px;
+    }
+
+    .sidebar-box h3 {
+      margin-bottom: 12px;
+      color: #111;
+    }
+
+    .sidebar-list {
+      list-style: none;
+    }
+
+    .sidebar-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .result-section {
+      background: #fff;
+      padding: 28px;
+      border-radius: 18px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    }
+
+    .result-box {
+      background: #f1fff3;
+      border: 1px solid #c8f0cf;
+      padding: 18px;
+      border-radius: 12px;
+      margin-top: 14px;
+    }
+
+    .download-btn {
+      display: inline-block;
+      margin-top: 14px;
+      background: #0d47a1;
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .info-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    }
+
+    .info-card h3 {
+      margin-bottom: 10px;
+      color: #0d47a1;
+    }
+
+    .faq-box {
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      margin-bottom: 14px;
+    }
+
+    .faq-box h3 {
+      margin-bottom: 8px;
+      font-size: 19px;
+      color: #111;
+    }
+
+    footer {
+      background: #0d1b2a;
+      color: #fff;
+      margin-top: 30px;
+      padding: 40px 0 25px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 24px;
+    }
+
+    .footer-grid h3 {
+      margin-bottom: 12px;
+    }
+
+    .footer-grid p,
+    .footer-grid li,
+    .footer-grid a {
+      color: #d8e1ea;
+      font-size: 14px;
+    }
+
+    .footer-grid ul {
+      list-style: none;
+    }
+
+    .footer-grid li {
+      margin-bottom: 8px;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.15);
+      margin-top: 20px;
+      padding-top: 16px;
+      text-align: center;
+      font-size: 14px;
+      color: #c9d6e3;
+    }
+
+    .sticky-mobile-bar {
+      display: none;
+    }
+
+    @media (max-width: 992px) {
+      .hero-grid,
+      .upload-section,
+      .footer-grid,
+      .info-grid,
+      .tools-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-grid,
+      .upload-section,
+      .footer-grid,
+      .info-grid,
+      .tools-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 30px;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .header-inner {
+        justify-content: space-between;
+      }
+
+      .sticky-mobile-bar {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #ffffff;
+        box-shadow: 0 -2px 12px rgba(0,0,0,0.12);
+        padding: 10px;
+        z-index: 1000;
+        gap: 10px;
+      }
+
+      .sticky-mobile-bar a {
+        flex: 1;
+        text-align: center;
+        padding: 12px;
+        border-radius: 10px;
+        font-weight: 700;
+      }
+
+      .sticky-mobile-bar .sticky-main {
+        background: #ff9800;
+        color: #fff;
+      }
+
+      .sticky-mobile-bar .sticky-alt {
+        background: #0d47a1;
+        color: #fff;
+      }
+
+      body {
+        padding-bottom: 76px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="page-wrap">
-        <div class="glass-card">
-            <div class="top-badge">સ્માર્ટ દસ્તાવેજ પ્રક્રિયા પોર્ટલ</div>
-            <h1>PDF વિભાજન અને એક્સપોર્ટ ટૂલ</h1>
 
-            <p class="subtitle">
-                અહીં માત્ર PDF ફાઇલ અપલોડ કરો. નીચે આપેલ કોષ્ટકમાં પેજ રેન્જ, આઉટપુટ ફોર્મેટ
-                અને આઉટપુટ ફાઇલ નામ પહેલેથી ભરેલ છે. જરૂર હોય તો તમે તેમાં ફેરફાર કરી શકો છો,
-                નવી row ઉમેરી શકો છો અથવા કોઈ row કાઢી શકો છો.
-            </p>
-
-            <div class="info-strip">
-                <strong>ઉપયોગ કરવાની રીત:</strong><br>
-                1. નીચે આપેલ બોક્સમાં PDF ફાઇલ અપલોડ કરો.<br>
-                2. નીચેના કોષ્ટકમાં આપેલ માહિતી તપાસો.<br>
-                3. જરૂર મુજબ નામ, પેજ રેન્જ અથવા ફોર્મેટ બદલો.<br>
-                4. પછી “પ્રોસેસ કરો અને ZIP ડાઉનલોડ કરો” બટન દબાવો.
-            </div>
-
-            <form action="/process" method="post" enctype="multipart/form-data" onsubmit="showLoading()">
-                <div class="upload-box">
-                    <div class="upload-title">અહીં PDF ફાઇલ અપલોડ કરો</div>
-                    <div class="upload-text">
-                        મુખ્ય PDF ફાઇલ અહીં પસંદ કરો. Excel ફાઇલ અપલોડ કરવાની જરૂર નથી.
-                    </div>
-                    <input type="file" name="pdf" accept=".pdf" required>
-                </div>
-
-                <div class="rules-box">
-                    <div class="rules-title">પ્રોસેસિંગ માટેનું Editable Data</div>
-                    <div class="rules-text">
-                        નીચેનું data પહેલેથી ભરેલું છે. જરૂર હોય તો તમે edit કરી શકો છો.
-                    </div>
-
-                    <div class="table-wrap">
-                        <table id="rulesTable">
-                            <thead>
-                                <tr>
-                                    <th class="col-range">પેજ રેન્જ</th>
-                                    <th class="col-format">આઉટપુટ ફોર્મેટ</th>
-                                    <th class="col-name">આઉટપુટ ફાઇલ નામ</th>
-                                    <th class="col-action">ક્રિયા</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><input type="text" name="page_range[]" value="1 to 2" class="small-input" required></td>
-                                    <td>
-                                        <select name="output_format[]" required>
-                                            <option value="pdf" selected>pdf</option>
-                                            <option value="jpg">jpg</option>
-                                            <option value="jpeg">jpeg</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="text" name="output_name[]" value="Detail Form" required></td>
-                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
-                                </tr>
-
-                                <tr>
-                                    <td><input type="text" name="page_range[]" value="3" class="small-input" required></td>
-                                    <td>
-                                        <select name="output_format[]" required>
-                                            <option value="pdf">pdf</option>
-                                            <option value="jpg" selected>jpg</option>
-                                            <option value="jpeg">jpeg</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="text" name="output_name[]" value="1_Daughter Photos" required></td>
-                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
-                                </tr>
-
-                                <tr>
-                                    <td><input type="text" name="page_range[]" value="4" class="small-input" required></td>
-                                    <td>
-                                        <select name="output_format[]" required>
-                                            <option value="pdf" selected>pdf</option>
-                                            <option value="jpg">jpg</option>
-                                            <option value="jpeg">jpeg</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="text" name="output_name[]" value="2_Daughter Birth Certificate" required></td>
-                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
-                                </tr>
-
-                                <tr>
-                                    <td><input type="text" name="page_range[]" value="5" class="small-input" required></td>
-                                    <td>
-                                        <select name="output_format[]" required>
-                                            <option value="pdf">pdf</option>
-                                            <option value="jpg" selected>jpg</option>
-                                            <option value="jpeg">jpeg</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="text" name="output_name[]" value="Daughter Aadhaar Card" required></td>
-                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
-                                </tr>
-
-                                <tr>
-                                    <td><input type="text" name="page_range[]" value="6" class="small-input" required></td>
-                                    <td>
-                                        <select name="output_format[]" required>
-                                            <option value="pdf">pdf</option>
-                                            <option value="jpg" selected>jpg</option>
-                                            <option value="jpeg">jpeg</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="text" name="output_name[]" value="Father Aadhaar Card" required></td>
-                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
-                                </tr>
-
-                                <tr>
-                                    <td><input type="text" name="page_range[]" value="7" class="small-input" required></td>
-                                    <td>
-                                        <select name="output_format[]" required>
-                                            <option value="pdf">pdf</option>
-                                            <option value="jpg" selected>jpg</option>
-                                            <option value="jpeg">jpeg</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="text" name="output_name[]" value="Mother Aadhaar Card" required></td>
-                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
-                                </tr>
-
-                                <tr>
-                                    <td><input type="text" name="page_range[]" value="8" class="small-input" required></td>
-                                    <td>
-                                        <select name="output_format[]" required>
-                                            <option value="pdf" selected>pdf</option>
-                                            <option value="jpg">jpg</option>
-                                            <option value="jpeg">jpeg</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="text" name="output_name[]" value="3_Bank Passbook" required></td>
-                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
-                                </tr>
-
-                                <tr>
-                                    <td><input type="text" name="page_range[]" value="9" class="small-input" required></td>
-                                    <td>
-                                        <select name="output_format[]" required>
-                                            <option value="pdf" selected>pdf</option>
-                                            <option value="jpg">jpg</option>
-                                            <option value="jpeg">jpeg</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="text" name="output_name[]" value="4_Father Birth Certificate" required></td>
-                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
-                                </tr>
-
-                                <tr>
-                                    <td><input type="text" name="page_range[]" value="10" class="small-input" required></td>
-                                    <td>
-                                        <select name="output_format[]" required>
-                                            <option value="pdf" selected>pdf</option>
-                                            <option value="jpg">jpg</option>
-                                            <option value="jpeg">jpeg</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="text" name="output_name[]" value="5_Mother Birth Certificate" required></td>
-                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
-                                </tr>
-
-                                <tr>
-                                    <td><input type="text" name="page_range[]" value="11" class="small-input" required></td>
-                                    <td>
-                                        <select name="output_format[]" required>
-                                            <option value="pdf" selected>pdf</option>
-                                            <option value="jpg">jpg</option>
-                                            <option value="jpeg">jpeg</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="text" name="output_name[]" value="6_Marriage Certificate" required></td>
-                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
-                                </tr>
-
-                                <tr>
-                                    <td><input type="text" name="page_range[]" value="12" class="small-input" required></td>
-                                    <td>
-                                        <select name="output_format[]" required>
-                                            <option value="pdf" selected>pdf</option>
-                                            <option value="jpg">jpg</option>
-                                            <option value="jpeg">jpeg</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="text" name="output_name[]" value="7_Ration Card" required></td>
-                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
-                                </tr>
-
-                                <tr>
-                                    <td><input type="text" name="page_range[]" value="13" class="small-input" required></td>
-                                    <td>
-                                        <select name="output_format[]" required>
-                                            <option value="pdf" selected>pdf</option>
-                                            <option value="jpg">jpg</option>
-                                            <option value="jpeg">jpeg</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="text" name="output_name[]" value="8_Self Declaration" required></td>
-                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
-                                </tr>
-
-                                <tr>
-                                    <td><input type="text" name="page_range[]" value="14" class="small-input" required></td>
-                                    <td>
-                                        <select name="output_format[]" required>
-                                            <option value="pdf" selected>pdf</option>
-                                            <option value="jpg">jpg</option>
-                                            <option value="jpeg">jpeg</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="text" name="output_name[]" value="10_Income Certificate" required></td>
-                                    <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <button type="button" class="add-row-btn" onclick="addRow()">નવી Row ઉમેરો</button>
-                </div>
-
-                <button type="submit" class="process-btn">પ્રોસેસ કરો અને ZIP ડાઉનલોડ કરો</button>
-                <div id="loadingText" class="loading-text">ફાઇલ પ્રોસેસ થઈ રહી છે, કૃપા કરીને રાહ જુઓ...</div>
-            </form>
-
-            {% if error %}
-            <div class="error-box">{{ error }}</div>
-            {% endif %}
-
-            <div class="note-box">
-                <strong>મહત્વપૂર્ણ નોંધ:</strong><br>
-                પેજ રેન્જ ઉદાહરણ: 1, 2-4, 5 to 7<br>
-                આઉટપુટ ફોર્મેટ: pdf / jpg / jpeg<br>
-                આઉટપુટ ફાઇલ નામ: તમે ઇચ્છો તે નામ આપી શકો છો.
-            </div>
-
-            <div class="creator-box">
-                <div class="creator-label">Created By</div>
-                <div class="creator-name">Sanjay Vaghela</div>
-                <div class="creator-role">Field Officer, Bhavnagar</div>
-            </div>
-        </div>
+  <header>
+    <div class="container header-inner">
+      <div class="logo">PDF<span>Master</span></div>
+      <nav>
+        <a href="#tools">Tools</a>
+        <a href="#upload">Upload</a>
+        <a href="#features">Features</a>
+        <a href="#faq">FAQ</a>
+        <a href="#footer">Contact</a>
+      </nav>
+      <a href="#upload" class="top-cta">Use Tool Now</a>
     </div>
+  </header>
 
-    <script>
-        function showLoading() {
-            var text = document.getElementById("loadingText");
-            if (text) {
-                text.style.display = "block";
-            }
-        }
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-box">
+        <h1>Fast Online PDF Tools to Merge, Split, Compress and Rename PDF Files</h1>
+        <p>
+          Use this simple and fast PDF utility website to manage your documents online.
+          Upload your file, choose the output settings, and download the processed PDF in seconds.
+        </p>
 
-        function addRow() {
-            const tbody = document.querySelector("#rulesTable tbody");
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td><input type="text" name="page_range[]" value="" class="small-input" required></td>
-                <td>
-                    <select name="output_format[]" required>
-                        <option value="pdf">pdf</option>
-                        <option value="jpg">jpg</option>
-                        <option value="jpeg">jpeg</option>
-                    </select>
-                </td>
-                <td><input type="text" name="output_name[]" value="" required></td>
-                <td class="col-action"><button type="button" class="remove-btn" onclick="removeRow(this)">Delete</button></td>
-            `;
-            tbody.appendChild(row);
-        }
+        <div class="hero-btns">
+          <a href="#upload" class="btn-primary">Start Processing PDF</a>
+          <a href="#tools" class="btn-secondary">View All Tools</a>
+        </div>
 
-        function removeRow(button) {
-            const tbody = document.querySelector("#rulesTable tbody");
-            if (tbody.rows.length > 1) {
-                button.closest("tr").remove();
-            } else {
-                alert("ઓછામાં ઓછી એક row હોવી જરૂરી છે.");
-            }
-        }
-    </script>
+        <div class="hero-points">
+          <div>Secure file handling</div>
+          <div>Mobile-friendly layout</div>
+          <div>Fast PDF processing</div>
+          <div>Works in browser</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="ad-label">Top Banner Ad</div>
+        <div class="ad-box">
+          Place 728x90 or responsive AdSense / AdX banner here
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="ad-label">Above Tools Ad</div>
+      <div class="ad-box" style="min-height: 100px;">
+        Place responsive leaderboard / horizontal display ad here
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="tools">
+    <div class="container">
+      <h2 class="section-title">Popular PDF Tools</h2>
+      <p class="section-subtitle">
+        Add multiple tools on one website to increase user sessions, traffic and ad revenue.
+      </p>
+
+      <div class="tools-grid">
+        <div class="tool-card">
+          <div class="tool-icon">📄</div>
+          <h3>Merge PDF</h3>
+          <p>Combine multiple PDF files into one single document in just a few clicks.</p>
+          <a href="#upload">Open Tool</a>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-icon">✂️</div>
+          <h3>Split PDF</h3>
+          <p>Extract specific pages or split one PDF into multiple smaller files easily.</p>
+          <a href="#upload">Open Tool</a>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-icon">🗜️</div>
+          <h3>Compress PDF</h3>
+          <p>Reduce PDF file size for faster sharing, uploads, applications and storage.</p>
+          <a href="#upload">Open Tool</a>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-icon">📝</div>
+          <h3>Rename PDF</h3>
+          <p>Rename PDF files in a clean and organized way for office or personal use.</p>
+          <a href="#upload">Open Tool</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="upload">
+    <div class="container upload-section">
+      <div class="upload-box">
+        <h2 class="section-title" style="font-size:28px;">Process Your PDF File</h2>
+        <p class="section-subtitle">
+          This is the main money page. Keep ads visible but do not disturb user experience too much.
+        </p>
+
+        <div class="drop-zone">
+          <h3>Upload PDF File</h3>
+          <p>Drag and drop your PDF here or click below to select a file</p>
+          <a href="#" class="upload-btn">Choose PDF File</a>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Page Range</label>
+            <input type="text" placeholder="Example: 1-5, 8, 10-12" />
+          </div>
+
+          <div class="form-group">
+            <label>Output Format</label>
+            <select>
+              <option>PDF</option>
+              <option>ZIP</option>
+              <option>Separate PDF Files</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Output File Name</label>
+            <input type="text" placeholder="Enter output file name" />
+          </div>
+        </div>
+
+        <button class="process-btn">Process PDF Now</button>
+      </div>
+
+      <div>
+        <div class="sidebar-box">
+          <h3>Recommended Tools</h3>
+          <ul class="sidebar-list">
+            <li>PDF to Word</li>
+            <li>Word to PDF</li>
+            <li>Image to PDF</li>
+            <li>Resize PDF for Government Form</li>
+            <li>Compress PDF Under 100KB</li>
+          </ul>
+        </div>
+
+        <div class="ad-label">Sidebar Ad</div>
+        <div class="ad-box" style="min-height: 280px;">
+          Place 300x250 or 300x600 ad here
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="ad-label">Middle Content Ad</div>
+      <div class="ad-box">
+        Place responsive in-content ad here
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container result-section">
+      <h2 class="section-title" style="font-size:28px;">Result & Download Area</h2>
+      <p class="section-subtitle">
+        This section usually gets strong engagement. Good place for download CTA and one more ad.
+      </p>
+
+      <div class="result-box">
+        <strong>Your PDF has been processed successfully.</strong><br />
+        File Name: merged-document.pdf<br />
+        Size: 1.8 MB<br />
+        Pages: 12
+        <br />
+        <a href="#" class="download-btn">Download PDF</a>
+      </div>
+
+      <div style="margin-top: 22px;">
+        <div class="ad-label">Download Page Ad</div>
+        <div class="ad-box">
+          Place high-performing in-content ad or native ad here
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="features">
+    <div class="container">
+      <h2 class="section-title">Why This Layout Earns Better</h2>
+      <p class="section-subtitle">
+        This design focuses on both user trust and ad visibility for better CTR and RPM.
+      </p>
+
+      <div class="info-grid">
+        <div class="info-card">
+          <h3>High Intent Traffic</h3>
+          <p>
+            PDF tool users come with a clear purpose. This often gives better engagement and ad viewability.
+          </p>
+        </div>
+
+        <div class="info-card">
+          <h3>Multiple Ad Zones</h3>
+          <p>
+            Top banner, sidebar, in-content and result-page placements can improve overall earnings without heavy clutter.
+          </p>
+        </div>
+
+        <div class="info-card">
+          <h3>More Internal Pages</h3>
+          <p>
+            Add more tools and SEO pages like PDF to Word, Word to PDF, resize PDF and image conversion tools.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">SEO Content Section</h2>
+      <p class="section-subtitle">
+        This helps bring free traffic from Google search and increases monetization opportunities.
+      </p>
+
+      <div class="upload-box">
+        <p style="margin-bottom: 14px;">
+          Our online PDF tools help users manage PDF documents easily without installing software.
+          You can merge PDF files, split selected pages, compress large PDF documents and rename files
+          directly in your browser. This website is designed for office work, students, government form
+          uploads and daily document management.
+        </p>
+
+        <p style="margin-bottom: 14px;">
+          Fast-loading PDF tools websites can perform well in search engines when each tool has its own
+          landing page, proper title tag, meta description and useful content. To increase website earnings,
+          create separate pages for each PDF feature and optimize them for search intent.
+        </p>
+
+        <p>
+          You can also create niche high-traffic pages such as compress PDF under 100KB, resize PDF for
+          passport form, combine scanned pages into one PDF, and split PDF pages for document upload.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="container">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+
+      <div class="faq-box">
+        <h3>Is this PDF tool website free to use?</h3>
+        <p>Yes, basic features can be offered free. You can later add premium plans for advanced features.</p>
+      </div>
+
+      <div class="faq-box">
+        <h3>Where should I place ads for better earnings?</h3>
+        <p>Best positions are above the fold, sidebar, within content, and near the download/result section.</p>
+      </div>
+
+      <div class="faq-box">
+        <h3>Which PDF tools bring the most traffic?</h3>
+        <p>Merge PDF, split PDF, compress PDF, PDF to Word and resize PDF under 100KB are usually strong pages.</p>
+      </div>
+
+      <div class="faq-box">
+        <h3>Can I use AdSense and AdX on the same website?</h3>
+        <p>Yes, depending on your setup and partner access, both can be used strategically for monetization.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer id="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h3>PDFMaster</h3>
+          <p>
+            Simple online PDF tools website for merging, splitting, compressing and renaming PDF documents.
+            Built for speed, usability and monetization.
+          </p>
+        </div>
+
+        <div>
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="#tools">PDF Tools</a></li>
+            <li><a href="#upload">Upload PDF</a></li>
+            <li><a href="#faq">FAQs</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Legal</h3>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Use</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        Created by Sanjay Vaghela, Field Officer, Bhavnagar
+      </div>
+    </div>
+  </footer>
+
+  <div class="sticky-mobile-bar">
+    <a href="#upload" class="sticky-main">Upload PDF</a>
+    <a href="#tools" class="sticky-alt">More Tools</a>
+  </div>
+
 </body>
 </html>
