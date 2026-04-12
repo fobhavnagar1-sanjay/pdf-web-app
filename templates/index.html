@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PDF Tools Online - Merge, Split, Compress & Rename PDF Files</title>
-  <meta name="description" content="Use fast PDF tools online to merge, split, compress, rename and organize your PDF files. Simple, secure and mobile-friendly PDF utility website." />
-  <meta name="keywords" content="PDF tools, merge PDF, split PDF, compress PDF, rename PDF, online PDF editor, PDF utility website" />
-  <meta name="robots" content="index, follow" />
+  <title>PDF Tools - Merge, Split, Compress PDF Online</title>
+  <meta name="description" content="Free online PDF tools to merge, split, compress and manage PDF files easily." />
   <style>
     * {
       margin: 0;
@@ -16,7 +14,7 @@
     }
 
     body {
-      background: #f5f7fb;
+      background: #f4f7fb;
       color: #222;
       line-height: 1.6;
     }
@@ -34,24 +32,24 @@
 
     header {
       background: #ffffff;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
       position: sticky;
       top: 0;
-      z-index: 999;
+      z-index: 1000;
     }
 
-    .header-inner {
+    .navbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 16px 0;
-      gap: 15px;
       flex-wrap: wrap;
+      gap: 15px;
     }
 
     .logo {
-      font-size: 26px;
-      font-weight: 700;
+      font-size: 28px;
+      font-weight: bold;
       color: #0d47a1;
     }
 
@@ -59,356 +57,255 @@
       color: #ff9800;
     }
 
-    nav {
+    .nav-links {
       display: flex;
-      gap: 16px;
+      gap: 20px;
       flex-wrap: wrap;
     }
 
-    nav a {
-      font-size: 15px;
+    .nav-links a {
       font-weight: 600;
       color: #333;
     }
 
-    nav a:hover {
+    .nav-links a:hover {
       color: #0d47a1;
     }
 
-    .top-cta {
-      background: #ff9800;
-      color: #fff;
-      padding: 10px 18px;
-      border-radius: 8px;
-      font-weight: 700;
-    }
-
     .hero {
-      padding: 50px 0 25px;
+      padding: 60px 0 40px;
     }
 
     .hero-grid {
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
-      gap: 24px;
+      gap: 30px;
       align-items: center;
     }
 
-    .hero-box {
-      background: #fff;
-      padding: 32px;
-      border-radius: 18px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-    }
-
-    .hero h1 {
-      font-size: 38px;
+    .hero-text h1 {
+      font-size: 42px;
       line-height: 1.2;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
       color: #111;
     }
 
-    .hero p {
-      font-size: 17px;
+    .hero-text p {
+      font-size: 18px;
       color: #555;
-      margin-bottom: 22px;
+      margin-bottom: 25px;
     }
 
-    .hero-btns {
+    .hero-buttons {
       display: flex;
-      gap: 12px;
+      gap: 14px;
       flex-wrap: wrap;
     }
 
     .btn-primary,
     .btn-secondary {
+      display: inline-block;
       padding: 14px 22px;
       border-radius: 10px;
-      font-weight: 700;
-      display: inline-block;
+      font-weight: bold;
+      transition: 0.3s;
     }
 
     .btn-primary {
       background: #0d47a1;
-      color: #fff;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #08367a;
     }
 
     .btn-secondary {
       background: #ff9800;
-      color: #fff;
+      color: white;
     }
 
-    .hero-points {
-      margin-top: 18px;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
+    .btn-secondary:hover {
+      background: #e68900;
     }
 
-    .hero-points div {
-      background: #f1f6ff;
-      padding: 12px;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 600;
+    .hero-card {
+      background: white;
+      padding: 28px;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     }
 
-    .ad-box {
-      background: #fff8e1;
-      border: 2px dashed #f5b300;
-      border-radius: 14px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    .hero-card h3 {
+      margin-bottom: 15px;
+      color: #0d47a1;
+      font-size: 24px;
+    }
+
+    .upload-box {
+      border: 2px dashed #0d47a1;
+      border-radius: 16px;
+      padding: 30px 20px;
       text-align: center;
-      color: #8a5b00;
-      font-weight: 700;
-      padding: 20px;
-      min-height: 120px;
+      background: #f8fbff;
+      margin-bottom: 18px;
     }
 
-    .ad-label {
-      font-size: 12px;
-      color: #999;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+    .upload-box p {
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .upload-btn {
+      display: inline-block;
+      background: #ff9800;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 10px;
       font-weight: bold;
     }
 
+    .mini-features {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .mini-feature {
+      background: #eef5ff;
+      padding: 12px;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+    }
+
     .section {
-      padding: 28px 0;
+      padding: 35px 0;
     }
 
     .section-title {
-      font-size: 30px;
-      margin-bottom: 14px;
+      font-size: 32px;
+      text-align: center;
+      margin-bottom: 12px;
       color: #111;
     }
 
     .section-subtitle {
+      text-align: center;
       color: #666;
-      margin-bottom: 24px;
+      max-width: 750px;
+      margin: 0 auto 30px;
       font-size: 16px;
     }
 
     .tools-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
+      gap: 20px;
     }
 
     .tool-card {
-      background: #fff;
-      border-radius: 16px;
+      background: white;
       padding: 24px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-      transition: 0.25s ease;
+      border-radius: 18px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+      text-align: center;
+      transition: 0.3s;
     }
 
     .tool-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-5px);
     }
 
     .tool-icon {
-      font-size: 36px;
-      margin-bottom: 12px;
+      font-size: 42px;
+      margin-bottom: 14px;
     }
 
     .tool-card h3 {
-      font-size: 20px;
+      font-size: 22px;
       margin-bottom: 10px;
       color: #0d47a1;
     }
 
     .tool-card p {
-      font-size: 14px;
       color: #666;
+      font-size: 14px;
       margin-bottom: 15px;
     }
 
     .tool-card a {
       display: inline-block;
-      padding: 11px 16px;
-      background: #ff9800;
-      color: #fff;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 14px;
-    }
-
-    .upload-section {
-      display: grid;
-      grid-template-columns: 1fr 340px;
-      gap: 22px;
-      align-items: start;
-    }
-
-    .upload-box {
-      background: #fff;
-      border-radius: 18px;
-      padding: 28px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-    }
-
-    .drop-zone {
-      border: 2px dashed #0d47a1;
-      border-radius: 16px;
-      padding: 40px 20px;
-      text-align: center;
-      background: #f7fbff;
-      margin-bottom: 20px;
-    }
-
-    .drop-zone h3 {
-      font-size: 24px;
-      margin-bottom: 10px;
-      color: #0d47a1;
-    }
-
-    .drop-zone p {
-      color: #666;
-      margin-bottom: 18px;
-    }
-
-    .upload-btn {
-      background: #0d47a1;
-      color: #fff;
-      padding: 14px 22px;
-      border-radius: 10px;
-      display: inline-block;
-      font-weight: 700;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-top: 10px;
-    }
-
-    .form-group label {
-      display: block;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: #333;
-    }
-
-    .form-group input,
-    .form-group select {
-      width: 100%;
-      padding: 12px 14px;
-      border-radius: 10px;
-      border: 1px solid #ccd5e0;
-      outline: none;
-      font-size: 14px;
-    }
-
-    .process-btn {
-      margin-top: 20px;
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 12px;
       background: #ff9800;
       color: white;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .sidebar-box {
-      background: #fff;
-      border-radius: 18px;
-      padding: 20px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-      margin-bottom: 18px;
-    }
-
-    .sidebar-box h3 {
-      margin-bottom: 12px;
-      color: #111;
-    }
-
-    .sidebar-list {
-      list-style: none;
-    }
-
-    .sidebar-list li {
-      padding: 8px 0;
-      border-bottom: 1px solid #eee;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: bold;
       font-size: 14px;
-      color: #555;
     }
 
-    .result-section {
-      background: #fff;
-      padding: 28px;
-      border-radius: 18px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-    }
-
-    .result-box {
-      background: #f1fff3;
-      border: 1px solid #c8f0cf;
-      padding: 18px;
-      border-radius: 12px;
-      margin-top: 14px;
-    }
-
-    .download-btn {
-      display: inline-block;
-      margin-top: 14px;
-      background: #0d47a1;
-      color: #fff;
-      padding: 12px 18px;
-      border-radius: 10px;
-      font-weight: 700;
-    }
-
-    .info-grid {
+    .why-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
+      gap: 20px;
     }
 
-    .info-card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 22px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    .why-card {
+      background: white;
+      padding: 24px;
+      border-radius: 18px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+      text-align: center;
     }
 
-    .info-card h3 {
+    .why-card h3 {
       margin-bottom: 10px;
       color: #0d47a1;
+      font-size: 22px;
     }
 
-    .faq-box {
-      background: #fff;
-      border-radius: 16px;
+    .why-card p {
+      color: #666;
+      font-size: 15px;
+    }
+
+    .faq-list {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .faq-item {
+      background: white;
       padding: 20px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-      margin-bottom: 14px;
+      border-radius: 14px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+      margin-bottom: 16px;
     }
 
-    .faq-box h3 {
-      margin-bottom: 8px;
-      font-size: 19px;
+    .faq-item h3 {
       color: #111;
+      margin-bottom: 8px;
+      font-size: 20px;
+    }
+
+    .faq-item p {
+      color: #666;
     }
 
     footer {
       background: #0d1b2a;
-      color: #fff;
+      color: white;
       margin-top: 30px;
-      padding: 40px 0 25px;
+      padding: 40px 0 20px;
     }
 
     .footer-grid {
       display: grid;
       grid-template-columns: 2fr 1fr 1fr;
-      gap: 24px;
+      gap: 20px;
     }
 
     .footer-grid h3 {
@@ -418,7 +315,7 @@
     .footer-grid p,
     .footer-grid li,
     .footer-grid a {
-      color: #d8e1ea;
+      color: #d7e0ea;
       font-size: 14px;
     }
 
@@ -436,81 +333,41 @@
       padding-top: 16px;
       text-align: center;
       font-size: 14px;
-      color: #c9d6e3;
-    }
-
-    .sticky-mobile-bar {
-      display: none;
+      color: #c9d4df;
     }
 
     @media (max-width: 992px) {
       .hero-grid,
-      .upload-section,
-      .footer-grid,
-      .info-grid,
-      .tools-grid {
+      .tools-grid,
+      .why-grid,
+      .footer-grid {
         grid-template-columns: 1fr 1fr;
-      }
-
-      .form-grid {
-        grid-template-columns: 1fr;
       }
     }
 
     @media (max-width: 768px) {
       .hero-grid,
-      .upload-section,
-      .footer-grid,
-      .info-grid,
-      .tools-grid {
+      .tools-grid,
+      .why-grid,
+      .footer-grid {
         grid-template-columns: 1fr;
       }
 
-      .hero h1 {
-        font-size: 30px;
+      .hero-text h1 {
+        font-size: 32px;
       }
 
-      nav {
-        display: none;
-      }
-
-      .header-inner {
-        justify-content: space-between;
-      }
-
-      .sticky-mobile-bar {
-        display: flex;
-        position: fixed;
-        bottom: 0;
-        left: 0;
+      .nav-links {
         width: 100%;
-        background: #ffffff;
-        box-shadow: 0 -2px 12px rgba(0,0,0,0.12);
-        padding: 10px;
-        z-index: 1000;
-        gap: 10px;
+        justify-content: center;
       }
 
-      .sticky-mobile-bar a {
-        flex: 1;
-        text-align: center;
-        padding: 12px;
-        border-radius: 10px;
-        font-weight: 700;
+      .navbar {
+        justify-content: center;
       }
 
-      .sticky-mobile-bar .sticky-main {
-        background: #ff9800;
-        color: #fff;
-      }
-
-      .sticky-mobile-bar .sticky-alt {
-        background: #0d47a1;
-        color: #fff;
-      }
-
-      body {
-        padding-bottom: 76px;
+      .mini-features {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -518,45 +375,44 @@
 <body>
 
   <header>
-    <div class="container header-inner">
+    <div class="container navbar">
       <div class="logo">PDF<span>Master</span></div>
-      <nav>
-        <a href="#tools">Tools</a>
-        <a href="#upload">Upload</a>
-        <a href="#features">Features</a>
-        <a href="#faq">FAQ</a>
-        <a href="#footer">Contact</a>
-      </nav>
-      <a href="#upload" class="top-cta">Use Tool Now</a>
+      <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">Merge PDF</a>
+        <a href="#">Split PDF</a>
+        <a href="#">Compress PDF</a>
+        <a href="#">Contact</a>
+      </div>
     </div>
   </header>
 
   <section class="hero">
     <div class="container hero-grid">
-      <div class="hero-box">
-        <h1>Fast Online PDF Tools to Merge, Split, Compress and Rename PDF Files</h1>
+      <div class="hero-text">
+        <h1>Manage Your PDF Files Online in Seconds</h1>
         <p>
-          Use this simple and fast PDF utility website to manage your documents online.
-          Upload your file, choose the output settings, and download the processed PDF in seconds.
+          Merge, split, compress and organize PDF files with a fast, secure and simple online PDF tool.
+          Easy for office work, students and daily document use.
         </p>
-
-        <div class="hero-btns">
-          <a href="#upload" class="btn-primary">Start Processing PDF</a>
-          <a href="#tools" class="btn-secondary">View All Tools</a>
-        </div>
-
-        <div class="hero-points">
-          <div>Secure file handling</div>
-          <div>Mobile-friendly layout</div>
-          <div>Fast PDF processing</div>
-          <div>Works in browser</div>
+        <div class="hero-buttons">
+          <a href="#" class="btn-primary">Start Now</a>
+          <a href="#" class="btn-secondary">View Tools</a>
         </div>
       </div>
 
-      <div>
-        <div class="ad-label">Top Banner Ad</div>
-        <div class="ad-box">
-          Place 728x90 or responsive AdSense / AdX banner here
+      <div class="hero-card">
+        <h3>Upload PDF</h3>
+        <div class="upload-box">
+          <p>Drag and drop your PDF here or click below</p>
+          <a href="#" class="upload-btn">Choose PDF File</a>
+        </div>
+
+        <div class="mini-features">
+          <div class="mini-feature">Fast Processing</div>
+          <div class="mini-feature">Secure Files</div>
+          <div class="mini-feature">Easy to Use</div>
+          <div class="mini-feature">Mobile Friendly</div>
         </div>
       </div>
     </div>
@@ -564,105 +420,38 @@
 
   <section class="section">
     <div class="container">
-      <div class="ad-label">Above Tools Ad</div>
-      <div class="ad-box" style="min-height: 100px;">
-        Place responsive leaderboard / horizontal display ad here
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="tools">
-    <div class="container">
       <h2 class="section-title">Popular PDF Tools</h2>
       <p class="section-subtitle">
-        Add multiple tools on one website to increase user sessions, traffic and ad revenue.
+        Use our most popular tools to manage PDF files quickly and easily.
       </p>
 
       <div class="tools-grid">
         <div class="tool-card">
           <div class="tool-icon">📄</div>
           <h3>Merge PDF</h3>
-          <p>Combine multiple PDF files into one single document in just a few clicks.</p>
-          <a href="#upload">Open Tool</a>
+          <p>Combine multiple PDF files into one document in the correct order.</p>
+          <a href="#">Use Tool</a>
         </div>
 
         <div class="tool-card">
           <div class="tool-icon">✂️</div>
           <h3>Split PDF</h3>
-          <p>Extract specific pages or split one PDF into multiple smaller files easily.</p>
-          <a href="#upload">Open Tool</a>
+          <p>Separate pages from a PDF and save them as new files easily.</p>
+          <a href="#">Use Tool</a>
         </div>
 
         <div class="tool-card">
           <div class="tool-icon">🗜️</div>
           <h3>Compress PDF</h3>
-          <p>Reduce PDF file size for faster sharing, uploads, applications and storage.</p>
-          <a href="#upload">Open Tool</a>
+          <p>Reduce file size to make your PDF easier to upload and share.</p>
+          <a href="#">Use Tool</a>
         </div>
 
         <div class="tool-card">
           <div class="tool-icon">📝</div>
           <h3>Rename PDF</h3>
-          <p>Rename PDF files in a clean and organized way for office or personal use.</p>
-          <a href="#upload">Open Tool</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="upload">
-    <div class="container upload-section">
-      <div class="upload-box">
-        <h2 class="section-title" style="font-size:28px;">Process Your PDF File</h2>
-        <p class="section-subtitle">
-          This is the main money page. Keep ads visible but do not disturb user experience too much.
-        </p>
-
-        <div class="drop-zone">
-          <h3>Upload PDF File</h3>
-          <p>Drag and drop your PDF here or click below to select a file</p>
-          <a href="#" class="upload-btn">Choose PDF File</a>
-        </div>
-
-        <div class="form-grid">
-          <div class="form-group">
-            <label>Page Range</label>
-            <input type="text" placeholder="Example: 1-5, 8, 10-12" />
-          </div>
-
-          <div class="form-group">
-            <label>Output Format</label>
-            <select>
-              <option>PDF</option>
-              <option>ZIP</option>
-              <option>Separate PDF Files</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>Output File Name</label>
-            <input type="text" placeholder="Enter output file name" />
-          </div>
-        </div>
-
-        <button class="process-btn">Process PDF Now</button>
-      </div>
-
-      <div>
-        <div class="sidebar-box">
-          <h3>Recommended Tools</h3>
-          <ul class="sidebar-list">
-            <li>PDF to Word</li>
-            <li>Word to PDF</li>
-            <li>Image to PDF</li>
-            <li>Resize PDF for Government Form</li>
-            <li>Compress PDF Under 100KB</li>
-          </ul>
-        </div>
-
-        <div class="ad-label">Sidebar Ad</div>
-        <div class="ad-box" style="min-height: 280px;">
-          Place 300x250 or 300x600 ad here
+          <p>Give your PDF files clear names for better organization and work.</p>
+          <a href="#">Use Tool</a>
         </div>
       </div>
     </div>
@@ -670,151 +459,84 @@
 
   <section class="section">
     <div class="container">
-      <div class="ad-label">Middle Content Ad</div>
-      <div class="ad-box">
-        Place responsive in-content ad here
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container result-section">
-      <h2 class="section-title" style="font-size:28px;">Result & Download Area</h2>
+      <h2 class="section-title">Why Choose Our PDF Website</h2>
       <p class="section-subtitle">
-        This section usually gets strong engagement. Good place for download CTA and one more ad.
+        Built for speed, simplicity and everyday document work.
       </p>
 
-      <div class="result-box">
-        <strong>Your PDF has been processed successfully.</strong><br />
-        File Name: merged-document.pdf<br />
-        Size: 1.8 MB<br />
-        Pages: 12
-        <br />
-        <a href="#" class="download-btn">Download PDF</a>
-      </div>
-
-      <div style="margin-top: 22px;">
-        <div class="ad-label">Download Page Ad</div>
-        <div class="ad-box">
-          Place high-performing in-content ad or native ad here
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="features">
-    <div class="container">
-      <h2 class="section-title">Why This Layout Earns Better</h2>
-      <p class="section-subtitle">
-        This design focuses on both user trust and ad visibility for better CTR and RPM.
-      </p>
-
-      <div class="info-grid">
-        <div class="info-card">
-          <h3>High Intent Traffic</h3>
-          <p>
-            PDF tool users come with a clear purpose. This often gives better engagement and ad viewability.
-          </p>
+      <div class="why-grid">
+        <div class="why-card">
+          <h3>Simple Design</h3>
+          <p>Clean and easy layout so anyone can use the website without confusion.</p>
         </div>
 
-        <div class="info-card">
-          <h3>Multiple Ad Zones</h3>
-          <p>
-            Top banner, sidebar, in-content and result-page placements can improve overall earnings without heavy clutter.
-          </p>
+        <div class="why-card">
+          <h3>Fast Processing</h3>
+          <p>Your PDF tasks are handled quickly to save time during office or personal work.</p>
         </div>
 
-        <div class="info-card">
-          <h3>More Internal Pages</h3>
-          <p>
-            Add more tools and SEO pages like PDF to Word, Word to PDF, resize PDF and image conversion tools.
-          </p>
+        <div class="why-card">
+          <h3>Works Anywhere</h3>
+          <p>Use on desktop or mobile browser without installing any extra software.</p>
         </div>
       </div>
     </div>
   </section>
 
   <section class="section">
-    <div class="container">
-      <h2 class="section-title">SEO Content Section</h2>
-      <p class="section-subtitle">
-        This helps bring free traffic from Google search and increases monetization opportunities.
-      </p>
-
-      <div class="upload-box">
-        <p style="margin-bottom: 14px;">
-          Our online PDF tools help users manage PDF documents easily without installing software.
-          You can merge PDF files, split selected pages, compress large PDF documents and rename files
-          directly in your browser. This website is designed for office work, students, government form
-          uploads and daily document management.
-        </p>
-
-        <p style="margin-bottom: 14px;">
-          Fast-loading PDF tools websites can perform well in search engines when each tool has its own
-          landing page, proper title tag, meta description and useful content. To increase website earnings,
-          create separate pages for each PDF feature and optimize them for search intent.
-        </p>
-
-        <p>
-          You can also create niche high-traffic pages such as compress PDF under 100KB, resize PDF for
-          passport form, combine scanned pages into one PDF, and split PDF pages for document upload.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="faq">
     <div class="container">
       <h2 class="section-title">Frequently Asked Questions</h2>
 
-      <div class="faq-box">
-        <h3>Is this PDF tool website free to use?</h3>
-        <p>Yes, basic features can be offered free. You can later add premium plans for advanced features.</p>
-      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <h3>Is this PDF tool free to use?</h3>
+          <p>Yes, you can offer basic PDF tools for free on your website.</p>
+        </div>
 
-      <div class="faq-box">
-        <h3>Where should I place ads for better earnings?</h3>
-        <p>Best positions are above the fold, sidebar, within content, and near the download/result section.</p>
-      </div>
+        <div class="faq-item">
+          <h3>Can I merge multiple PDF files?</h3>
+          <p>Yes, users can upload multiple PDF files and combine them into one final file.</p>
+        </div>
 
-      <div class="faq-box">
-        <h3>Which PDF tools bring the most traffic?</h3>
-        <p>Merge PDF, split PDF, compress PDF, PDF to Word and resize PDF under 100KB are usually strong pages.</p>
-      </div>
+        <div class="faq-item">
+          <h3>Does it work on mobile devices?</h3>
+          <p>Yes, the homepage is fully responsive and works on phone, tablet and desktop.</p>
+        </div>
 
-      <div class="faq-box">
-        <h3>Can I use AdSense and AdX on the same website?</h3>
-        <p>Yes, depending on your setup and partner access, both can be used strategically for monetization.</p>
+        <div class="faq-item">
+          <h3>Can I add more PDF tools later?</h3>
+          <p>Yes, you can add PDF to Word, Word to PDF, image to PDF and more tools later.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <footer id="footer">
+  <footer>
     <div class="container">
       <div class="footer-grid">
         <div>
           <h3>PDFMaster</h3>
           <p>
-            Simple online PDF tools website for merging, splitting, compressing and renaming PDF documents.
-            Built for speed, usability and monetization.
+            Online PDF tools website for merging, splitting, compressing and organizing PDF files with ease.
           </p>
         </div>
 
         <div>
           <h3>Quick Links</h3>
           <ul>
-            <li><a href="#tools">PDF Tools</a></li>
-            <li><a href="#upload">Upload PDF</a></li>
-            <li><a href="#faq">FAQs</a></li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Merge PDF</a></li>
+            <li><a href="#">Split PDF</a></li>
+            <li><a href="#">Compress PDF</a></li>
           </ul>
         </div>
 
         <div>
-          <h3>Legal</h3>
+          <h3>Contact</h3>
           <ul>
             <li><a href="#">Privacy Policy</a></li>
             <li><a href="#">Terms of Use</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="#">Support</a></li>
           </ul>
         </div>
       </div>
@@ -824,11 +546,6 @@
       </div>
     </div>
   </footer>
-
-  <div class="sticky-mobile-bar">
-    <a href="#upload" class="sticky-main">Upload PDF</a>
-    <a href="#tools" class="sticky-alt">More Tools</a>
-  </div>
 
 </body>
 </html>
